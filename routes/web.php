@@ -46,21 +46,25 @@ Route::resource('categories', 'Admin\CategoriesController');
 Route::get('/admin/procategoriesducts/trash', [CategoriesController::class, 'trash'])
     ->name('categories.trash');
 Route::put('/admin/categories/trash/{id?}', [CategoriesController::class, 'restore'])
-    ->name('categories.restore');
-Route::delete('/admin/categories/trash/{id?}', [CategoriesController::class, 'forceDelete'])
-    ->name('categories.force-delete');
-
-
-
+    ->name('categories.restore') ->middleware(['can:restore,product']);
 
 Route::resource('products', 'Admin\ProductsController')->middleware(['auth']);
 
 
 
-Route::get('/admin/products/trash', [ProductsController::class, 'trash'])
-    ->name('products.trash');
+Route::get('/admin/products/trash', [ProductsController::class, 'trash'])->name('products.trash')->middleware('auth');
+
+
 Route::put('/admin/products/trash/{id?}', [ProductsController::class, 'restore'])
-    ->name('products.restore');
+    ->name('products.restore')->middleware('auth');
 Route::delete('/admin/products/trash/{id?}', [ProductsController::class, 'forceDelete'])
     ->name('products.force-delete');
+    Route::delete('/admin/categories/trash/{id?}', [CategoriesController::class, 'forceDelete'])
+    ->name('categories.force-delete');
+
+    Route::post('ratings/{type}', [RatingsController::class, 'store'])
+    ->where('type', 'profile|product');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart');
+Route::post('/cart', [CartController::class, 'store']);
 

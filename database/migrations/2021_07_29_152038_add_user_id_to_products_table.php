@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterProductsTabe extends Migration
+class AddUserIdToProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,10 @@ class AlterProductsTabe extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            //
-            $table->string('name');
-
+            $table->foreignId('user_id')
+                ->nullable()
+                ->after('slug')
+                ->constrained('users')->nullOnDelete();
         });
     }
 
@@ -28,7 +29,7 @@ class AlterProductsTabe extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            //
+            $table->dropConstrainedForeignId('user_id');
         });
     }
 }

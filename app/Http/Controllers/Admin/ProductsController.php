@@ -86,11 +86,11 @@ class ProductsController extends Controller
 
         // $newProduct = Product::create($request->except('_token','_method'));
         // $newProduct->save();
-        return redirect()->route('products.index')->with('succuss', 'The '. $name . ' Product Added');
+        // return redirect()->route('products.index')->with('succuss', 'The '. $name . ' Product Added');
 
 
-        // return redirect()->route('products.index')
-        //     ->with('success', "Product ($product->name) created.");
+        return redirect()->route('products.index')
+            ->with('success', "Product ($product->name) created.");
 
     }
 

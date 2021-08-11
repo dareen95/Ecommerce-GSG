@@ -173,9 +173,20 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return $category->load([
+            'parent',
+            'products' => function($query) {
+                $query->orderBy('price', 'ASC')->where('status', 'active');
+            }
+        ]);
+        // SELECT * FROM products WHERE category_id = ? ORDER BY price ASC
+        return $category->products()
+            ->with('category:id,name,slug')
+            ->where('price', '>', 150)
+            ->orderBy('price', 'ASC')
+            ->get();
     }
 
     /**

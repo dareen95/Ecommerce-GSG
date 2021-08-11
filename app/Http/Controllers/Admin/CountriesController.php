@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Product;
+use App\Http\Controllers\Controller;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class CountriesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        return Product::active()->price(200, 500)->paginate();
+        //
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -45,10 +45,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Country $country)
     {
-        $product = Product::findOrFail($id);
-        return $product;
+        return $country->products;
     }
 
     /**
